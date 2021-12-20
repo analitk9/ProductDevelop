@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StorageService
 
 class ProfileViewController: UIViewController {
 
@@ -40,8 +41,11 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
+        #if DEBUG
+            view.backgroundColor = .red
+        #else
+            view.backgroundColor = .white
+        #endif
         title = tabBarItem.title
         
         tableView.delegate = self
