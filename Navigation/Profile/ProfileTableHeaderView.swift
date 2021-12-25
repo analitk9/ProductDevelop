@@ -146,6 +146,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
 
     @objc func tapAvatar(_ gesture: UITapGestureRecognizer){
         guard let tapDelegate = tapAvatarViewDelegate else { return }
+        statusTextField.resignFirstResponder()
         tapDelegate.tapHandler(gesture)
     }
 }
