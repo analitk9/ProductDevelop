@@ -46,6 +46,7 @@ class ProfileViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
         
         view.addSubview(tableView)
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: CellReuseID.default.rawValue)
@@ -113,6 +114,7 @@ extension ProfileViewController: UITableViewDataSource {
         case 0:
             let reUseID = CellReuseID.photoCell.rawValue
             guard let cell = tableView.dequeueReusableCell(withIdentifier: reUseID, for: indexPath) as? PhotosTableViewCell else { fatalError() }
+            cell.tapHandler = tapArrow
             cell.configure(with: photoModel.suffix(4))
             return cell
         case 1:
@@ -138,14 +140,18 @@ extension ProfileViewController: UITableViewDataSource {
         return nil
     }
     
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-             if indexPath.section == 0 {
-                 let photoVc = PhotosViewController()
-                 self.navigationController?.pushViewController(photoVc, animated: true)
-             }
-        tableView.resignFirstResponder()
+    func tapArrow(){
+        let photoVc = PhotosViewController()
+        navigationController?.pushViewController(photoVc, animated: true)
     }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//             if indexPath.section == 0 {
+//                 let photoVc = PhotosViewController()
+//                 self.navigationController?.pushViewController(photoVc, animated: true)
+//             }
+//        tableView.resignFirstResponder()
+//    }
     
 }
 
