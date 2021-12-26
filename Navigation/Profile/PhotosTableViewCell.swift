@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class PhotosTableViewCell: UITableViewCell {
     
     private enum Constans{
@@ -17,7 +16,6 @@ class PhotosTableViewCell: UITableViewCell {
         static let allOffset: CGFloat = spacing * 3 + padding * 4
     }
     
-    var tapHandler: (() -> Void)?
     
     private lazy var image1: UIImageView = {
         let photo = UIImageView(frame: .zero)
@@ -88,9 +86,7 @@ class PhotosTableViewCell: UITableViewCell {
         imageStack.addArrangedSubview(image3)
         imageStack.addArrangedSubview(image4)
         configureLayout()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapArrow))
-        arrowImage.addGestureRecognizer(tap)
-        arrowImage.isUserInteractionEnabled = true
+       
     }
     
     required init?(coder: NSCoder) {
@@ -127,12 +123,5 @@ class PhotosTableViewCell: UITableViewCell {
         image2.image = UIImage(named: fourPhotos[1].name)
         image3.image = UIImage(named: fourPhotos[2].name)
         image4.image = UIImage(named: fourPhotos[3].name)
-    }
-    
-    @objc func tapArrow(){
-        guard let tapHandler = tapHandler else {
-            return
-        }
-        tapHandler()  
     }
 }

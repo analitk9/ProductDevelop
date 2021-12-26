@@ -22,6 +22,7 @@ class StatusTextField: UITextField {
         placeholder = "Waiting for something..."
         self.indent(size: Constants.indent)
         leftViewMode = .always
+        translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = Constants.indent
         layer.borderWidth = Constants.borderWidth
         layer.borderColor =  UIColor.black.cgColor
