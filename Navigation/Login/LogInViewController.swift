@@ -89,7 +89,7 @@ class LogInViewController: UIViewController {
     }
 
     @objc func loginButtonPress() {
-        let profileVC = ProfileViewController()
+        let profileVC = ProfileViewController(userService: CurrentUserService(), name: loginView.loginText.text ?? "")
         
         navigationController?.pushViewController(profileVC, animated: true)
         
