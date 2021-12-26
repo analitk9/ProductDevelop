@@ -16,7 +16,8 @@ class ProfileViewController: UIViewController {
         case sectionHeader = "TableViewHeaderSectionID"
         case photoCell = "PhotoTableViewCellID"
     }
-    
+    var name: String
+    var userService: UserService
     let postModel: [Post] = Posts.createMockData()
     let photoModel: [Photo] = Photos.createMockPhotos()
     
@@ -28,7 +29,14 @@ class ProfileViewController: UIViewController {
     
     var detailProfileView: DetailProfileAvatar?
     
-    init() {
+    init(userService: UserService, name: String) {
+       
+#if DEBUG
+        self.userService = TestUserService()
+#else
+        self.userService = userService
+#endif
+        self.name = name
         super.init(nibName: nil, bundle: nil)
         configureTabBarItem()
     }
@@ -134,6 +142,9 @@ extension ProfileViewController: UITableViewDataSource {
             let reuseId = CellReuseID.sectionHeader.rawValue
             guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                                                                         reuseId) as? ProfileHeaderView else { fatalError() }
+            if let currentUser = userService.returnUser(for: name){
+                view.profileNameLabel.text = currentUser.name
+            }
             view.tapAvatarViewDelegate = self
             return view
         }
@@ -144,14 +155,6 @@ extension ProfileViewController: UITableViewDataSource {
         let photoVc = PhotosViewController()
         navigationController?.pushViewController(photoVc, animated: true)
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//             if indexPath.section == 0 {
-//                 let photoVc = PhotosViewController()
-//                 self.navigationController?.pushViewController(photoVc, animated: true)
-//             }
-//        tableView.resignFirstResponder()
-//    }
     
 }
 
