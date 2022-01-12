@@ -8,12 +8,12 @@
 import UIKit
 
 protocol LoginViewControllerDelegate: AnyObject {
-    func check(log: String, pas: String)-> Bool
+    func check(login: String, password: String)-> Bool
 }
 
 class LogInViewController: UIViewController {
-        
-    weak var delegate: LoginViewControllerDelegate?
+    
+    var delegate: LoginViewControllerDelegate?
     
     private var keyboardHelper: KeyboardHelper?
     let loginView = LogInView()
@@ -40,14 +40,14 @@ class LogInViewController: UIViewController {
         
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
-    
+        
         view.addSubview(scrollView)
         scrollView.addSubview(loginView)
         
         loginView.logInButton.addTarget(self, action: #selector(loginButtonPress), for: .touchUpInside)
         loginView.loginText.delegate = self
         loginView.passwordText.delegate = self
-       
+        
         keyboardHelper = KeyboardHelper { [unowned self] animation, keyboardFrame, duration in
             switch animation {
             case .keyboardWillShow:
@@ -77,13 +77,13 @@ class LogInViewController: UIViewController {
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        
-        loginView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-        loginView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-        loginView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-        loginView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-        loginView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-        loginView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+            
+            loginView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            loginView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            loginView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            loginView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            loginView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            loginView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ].forEach { $0.isActive = true }
     }
     
@@ -93,11 +93,26 @@ class LogInViewController: UIViewController {
         tabBarItem.selectedImage = UIImage(systemName: "person.fill")
         tabBarItem.tag = 20
     }
-
+    
     @objc func loginButtonPress() {
         let profileVC = ProfileViewController(userService: CurrentUserService(), name: loginView.loginText.text ?? "")
-        
-        navigationController?.pushViewController(profileVC, animated: true)
+        guard let delegate = delegate else { return }
+        if let loginText = loginView.loginText.text,
+           let passwordText = loginView.passwordText.text,
+           delegate.check(login: loginText, password: passwordText){
+            navigationController?.pushViewController(profileVC, animated: true)
+        } else {
+            showWrongLoginPasswordAlert()
+        }   
+    }
+    
+    func showWrongLoginPasswordAlert() {
+        let alertVC = UIAlertController(title: "Внимание", message: "Не верно указан логи или пароль", preferredStyle: .alert)
+        let button1 = UIAlertAction(title: "ОК", style: .default)
+   
+        alertVC.addAction(button1)
+
+        self.present(alertVC, animated: true, completion: nil)
         
     }
     

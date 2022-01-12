@@ -5,9 +5,9 @@
         "package": "iOSIntPackage",
         "repositoryURL": "https://github.com/TrueMax/iOSIntPackage.git",
         "state": {
-          "branch": null,
-          "revision": "78a55cb525e18e6bb05886bd5572cfa67ee7b47e",
-          "version": "2.2.0"
+          "branch": "main",
+          "revision": "2fc0df4c4c104e23de83cb2bdd67b5cc7683833f",
+          "version": null
         }
       }
     ]

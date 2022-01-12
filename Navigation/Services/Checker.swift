@@ -9,12 +9,10 @@ import Foundation
 class Checker {
     static let shared = Checker()
     private init(){}
-    private let login = "Test"
-    private let pswd = "StrongPassword"
+    private let login = "1"
+    private let password = "1"
     
-     func verify(log: String, pas: String)-> Bool {
-        log == login && pas == pswd
-        
+    func verify(login: String, password: String)-> Bool {
+        self.login == login && self.password == password
     }
-    
 }

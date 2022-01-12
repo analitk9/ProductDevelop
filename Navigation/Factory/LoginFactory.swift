@@ -10,14 +10,8 @@ protocol LoginFactory{
     func createLogInspector()-> LoginInspector
 }
 
-class MyLoginFactory {
-    
-}
-
-extension MyLoginFactory: LoginFactory{
+class MyLoginFactory: LoginFactory {
     func createLogInspector() -> LoginInspector {
         LoginInspector()
     }
-    
-    
 }

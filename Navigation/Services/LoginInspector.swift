@@ -7,15 +7,8 @@
 
 import Foundation
 
-class LoginInspector {
-    
-}
-
-extension LoginInspector: LoginViewControllerDelegate {
-    func check(log: String, pas: String) -> Bool {
-        Checker.shared.verify(log: log, pas: pas)
-      
+class LoginInspector: LoginViewControllerDelegate {
+    func check(login: String, password: String) -> Bool {
+        Checker.shared.verify(login: login, password: password)
     }
-    
-    
 }
