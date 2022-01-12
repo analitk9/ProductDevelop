@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol LoginViewControllerDelegate: AnyObject {
+    func check(log: String, pas: String)-> Bool
+}
+
 class LogInViewController: UIViewController {
+        
+    weak var delegate: LoginViewControllerDelegate?
     
     private var keyboardHelper: KeyboardHelper?
     let loginView = LogInView()
