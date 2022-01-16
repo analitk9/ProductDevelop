@@ -6,14 +6,12 @@
 //
 
 import UIKit
-import iOSIntPackage
 
 class PhotosViewController: UIViewController {
     fileprivate enum CellReuseID: String {
         case `default` = "collectionViewCell"
         
     }
-    let imageProcessor = ImageProcessor()
     let photoModel: [Photo] = Photos.createMockPhotos()
     
     let collectionView: UICollectionView = {
@@ -71,13 +69,7 @@ extension PhotosViewController: UICollectionViewDataSource {
         guard let cel = collectionView.dequeueReusableCell(withReuseIdentifier:
                                                             CellReuseID.default.rawValue, for: indexPath) as? PhotoCollectionViewCell  else { fatalError()}
         guard let image = UIImage(named: photoModel[indexPath.item].name) else {fatalError()}
-
-        imageProcessor.processImageAsync(sourceImage: image, filter: ColorFilter.allCases.randomElement()!) { resultImage in
-            guard let resultImage = resultImage else {fatalError()}
-            DispatchQueue.main.async {
-                cel.configure(with: UIImage(cgImage: resultImage))
-            }
-        }
+        cel.configure(with: image)
         return cel
     }
 

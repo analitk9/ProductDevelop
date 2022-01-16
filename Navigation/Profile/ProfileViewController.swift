@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class ProfileViewController: UIViewController {
 
-    
+    let imageProcessor = ImageProcessor()
     
     fileprivate enum CellReuseID: String {
         case `default` = "TableViewCellReuseIDDefault"
@@ -128,12 +129,19 @@ extension ProfileViewController: UITableViewDataSource {
         case 1:
             let reuseID = CellReuseID.default.rawValue
             guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? PostTableViewCell else { fatalError() }
-            cell.configure(postModel[indexPath.row])
+            let post = postModel[indexPath.row]
+            cell.configure(post)
+            guard let image = UIImage(named: post.image) else {fatalError()}
+            imageProcessor.processImageAsync(sourceImage:image, filter: ColorFilter.allCases.randomElement()!) { resultImage in
+                        guard let resultImage = resultImage else {fatalError()}
+                        DispatchQueue.main.async {
+                            cell.applyImageFilter(UIImage(cgImage: resultImage))
+                        }
+                    }
             return cell
         default:
             return UITableViewCell()
         }
-        
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
