@@ -7,8 +7,8 @@
 
 import UIKit
 
-class StatusButton: UIButton {
-    private enum Constans{
+class StatusButton: CustomButton {
+    enum Constans{
         static let cornerRadius: CGFloat = 15
         static let shadowOpacity: Float = 0.7
         static let backgroundColor: UIColor =  UIColor(red: 11/255 , green: 88/255, blue: 233/255, alpha: 1)
@@ -16,12 +16,10 @@ class StatusButton: UIButton {
         static let shadowOffset: CGSize = CGSize(width: 4, height: 4)
         static let shadowColor: CGColor = UIColor.black.cgColor
     }
-    func configure(with nameButton: String) {
+    
+    func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        setTitle(nameButton, for: .normal)
         backgroundColor = Constans.backgroundColor
-        tintColor = Constans.tintColor
-
         layer.cornerRadius = Constans.cornerRadius
         layer.shadowOffset = Constans.shadowOffset
         layer.shadowColor  = Constans.shadowColor

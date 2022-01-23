@@ -8,12 +8,12 @@
 import UIKit
 import SnapKit
 protocol tapAvatarViewProtocol {
-   
+    
     func tapHandler(_ gesture: UITapGestureRecognizer)
 }
 
 class ProfileHeaderView: UITableViewHeaderFooterView {
-   
+    
     private var statusText: String?
     
     private enum Constans{
@@ -26,8 +26,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     
     let statusTextField: UITextField = {
         let field = StatusTextField(frame: .zero)
-       
-        field.configure()
+        
+        field.configure(with: "Waiting for something...")
         return field
     }()
     
@@ -39,10 +39,10 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         image.configure()
         return image
     }()
-     
-    let statusButton: UIButton = {
-        let button = StatusButton(frame: .zero)
-        button.configure(with: "Show status")
+    
+    let statusButton: StatusButton = {
+        let button = StatusButton(frame: .zero, title: "Show status", tintColor: StatusButton.Constans.tintColor)
+        button.configure()
         return button
     }()
     
@@ -64,8 +64,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     
     override init( reuseIdentifier: String?) {
         super.init( reuseIdentifier: reuseIdentifier)
-    
-        statusButton.addTarget(self, action: #selector(statusButtonPressed), for: .touchUpInside)
+        
+        statusButton.onTap = statusButtonPressed
         statusTextField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         statusTextField.delegate = self
         
@@ -118,7 +118,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         
     }
     
-    @objc func statusButtonPressed(){
+    func statusButtonPressed(){
         if let statusText = statusText {
             statusTextLabel.text = statusText
             statusTextField.resignFirstResponder()
@@ -127,9 +127,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     
     @objc func statusTextChanged(_ textField: UITextField) {
         statusText = textField.text
-       
     }
-
+    
     @objc func tapAvatar(_ gesture: UITapGestureRecognizer){
         guard let tapDelegate = tapAvatarViewDelegate else { return }
         tapDelegate.tapHandler(gesture)

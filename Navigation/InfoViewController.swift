@@ -18,18 +18,17 @@ class InfoViewController: UIViewController {
     }
     
     func createPostButton(){
-        let button = UIButton(frame: CGRect(x: (view.bounds.width / 2)-50,
-                                            y: view.bounds.height / 2,
-                                            width: 100, height: 50))
+        let button = CustomButton(frame: CGRect(x: (view.bounds.width / 2)-50,
+                                                y: view.bounds.height / 2,
+                                                width: 100, height: 50), title: "Alert", tintColor: nil)
         button.backgroundColor = .systemRed
-        button.setTitle("Alert", for: .normal)
-        button.addTarget(self, action: #selector(pressedAlertButton), for: .touchUpInside)
+        button.onTap = pressedAlertButton   
         self.view.addSubview(button)
         
     }
     
     
-    @objc func pressedAlertButton (){
+   func pressedAlertButton (){
         let alertVC = UIAlertController(title: "Внимание", message: "Выберите действие", preferredStyle: .alert)
         let button1 = UIAlertAction(title: "Первое сообщение", style: .default){ _ in
             print("Первое сообщение")

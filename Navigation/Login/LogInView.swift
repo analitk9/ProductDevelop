@@ -37,11 +37,9 @@ class LogInView: UIView {
         
     }()
     
-    let logInButton: UIButton = {
-        let but = UIButton()
+    let logInButton: CustomButton = {
+        let but = CustomButton(frame: .zero, title: "Log in", tintColor: .white)
         but.translatesAutoresizingMaskIntoConstraints = false
-        but.setTitle("Log in", for: .normal)
-        but.tintColor = .white
         let pixelImage = UIImage(named: "bluePixel")
         but.setBackgroundImage(pixelImage?.withAlpha(1.0), for: .normal)
         but.setBackgroundImage(pixelImage?.withAlpha(0.8), for: .highlighted)

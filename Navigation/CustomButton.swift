@@ -8,9 +8,17 @@
 import UIKit
 
 import UIKit
-final class CustomButton: UIButton {
+ class CustomButton: UIButton {
 
     var onTap: (() -> Void)?
+    
+    convenience init(frame: CGRect, title: String?, tintColor: UIColor?) {
+        self.init(frame: frame)
+        self.setTitle(title, for: .normal)
+        if let tintColor = tintColor {
+            self.tintColor = tintColor
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
