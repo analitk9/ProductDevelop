@@ -36,8 +36,6 @@ class FeedViewController: UIViewController {
         self.viewModel = model
         super.init(nibName: nil, bundle: nil)
         configureTabBarItem()
-        
-        
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -52,7 +50,6 @@ class FeedViewController: UIViewController {
         view.addSubview(stack)
         configureStack()
         setupViewModel()
-        
     }
     
     private func setupViewModel() {

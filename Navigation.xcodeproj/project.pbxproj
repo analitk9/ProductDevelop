@@ -46,6 +46,7 @@
 		64D2C76D279EEE2E00DED7E5 /* InfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D2C76C279EEE2E00DED7E5 /* InfoCoordinator.swift */; };
 		64D2C76F27A1457A00DED7E5 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D2C76E27A1457A00DED7E5 /* ViewControllerFactory.swift */; };
 		64D2C77127A179A600DED7E5 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D2C77027A179A600DED7E5 /* FeedViewModel.swift */; };
+		64D2C77427A2C59800DED7E5 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D2C77327A2C59800DED7E5 /* ProfileViewModel.swift */; };
 		64D748FB277856D8009B7677 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D748FA277856D8009B7677 /* User.swift */; };
 		64D748FD277859E1009B7677 /* CurrentUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D748FC277859E1009B7677 /* CurrentUserService.swift */; };
 		64D7490027786907009B7677 /* TestUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D748FF27786907009B7677 /* TestUserService.swift */; };
@@ -95,6 +96,7 @@
 		64D2C76C279EEE2E00DED7E5 /* InfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCoordinator.swift; sourceTree = "<group>"; };
 		64D2C76E27A1457A00DED7E5 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
 		64D2C77027A179A600DED7E5 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		64D2C77327A2C59800DED7E5 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		64D748FA277856D8009B7677 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		64D748FC277859E1009B7677 /* CurrentUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserService.swift; sourceTree = "<group>"; };
 		64D748FF27786907009B7677 /* TestUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserService.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				64C158742725995F0078860D /* SubView */,
 				645F74EE2720116900949BC3 /* ProfileHeaderView.swift */,
 				6475226E271C223000014ECF /* ProfileViewController.swift */,
+				64D2C77327A2C59800DED7E5 /* ProfileViewModel.swift */,
 				64FE1D26273785EA00D2D985 /* PostTableViewCell.swift */,
 				641982532742920A008C9A41 /* PhotosTableViewCell.swift */,
 			);
@@ -440,6 +443,7 @@
 				6443DF0E277B30F40069A40F /* LoginFactory.swift in Sources */,
 				64C15873272599500078860D /* ProfileAvatarView.swift in Sources */,
 				649D271127328854006F15EB /* LogInView.swift in Sources */,
+				64D2C77427A2C59800DED7E5 /* ProfileViewModel.swift in Sources */,
 				64C15871272596DF0078860D /* StatusTextField.swift in Sources */,
 				64D2C6F2279D636000DED7E5 /* PasswordCheckerService.swift in Sources */,
 				641982562742D11A008C9A41 /* Photo.swift in Sources */,
