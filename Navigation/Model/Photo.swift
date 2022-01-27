@@ -14,7 +14,7 @@ struct Photo{
 class Photos {
     private var photos: [Photo] = [Photo]()
     
-    static func createMockPhotos()-> [Photo]{
+     func createMockPhotos()-> [Photo]{
         Array(1...20).map{ Photo(name: $0.description) }
     }
 }

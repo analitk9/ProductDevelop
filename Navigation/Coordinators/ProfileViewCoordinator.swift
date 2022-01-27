@@ -7,7 +7,7 @@
 
 import UIKit
 final class ProfileViewCoordinator: Coordinator {
-    private let userService = CurrentUserService()
+    private var userService: UserService!
     private weak var navigationController: UINavigationController?
     private let viewControllerFactory: ViewControllerFactoryProtocol
     let name: String
@@ -18,8 +18,17 @@ final class ProfileViewCoordinator: Coordinator {
     }
     
     func start() {
-        let profileVC = viewControllerFactory.createController(type: .profileVC(userService, name)) as! ProfileViewController
-        profileVC.toPhotoVC = toPhotoVC
+        let postModel = Posts()
+        let photoModel = Photos()
+        let model = ProfileViewModel(postsService: postModel, photoService: photoModel)
+        model.toPhotoVC = toPhotoVC
+        #if DEBUG
+                self.userService = TestUserService()
+        #else
+                self.userService = CurrentUserService()
+        #endif
+        let profileVC = viewControllerFactory.createController(type: .profileVC(model, userService, name)) as! ProfileViewController
+      
         navigationController?.pushViewController(profileVC, animated: true)
         
     }

@@ -13,7 +13,7 @@ enum typeOfController {
     case feedVC(FeedViewModel)
     case infoVC
     case postVC
-    case profileVC(UserService,String)
+    case profileVC(ProfileViewModel, UserService,String)
     case photoVC
 }
 protocol ViewControllerFactoryProtocol {
@@ -23,8 +23,8 @@ protocol ViewControllerFactoryProtocol {
 class ViewControllerFactory: ViewControllerFactoryProtocol{
     func createController(type: typeOfController) -> UIViewController {
         switch type {
-        case let .profileVC(userService, name):
-            return ProfileViewController(userService: userService, name: name)
+        case let .profileVC(model, userService, name):
+            return ProfileViewController(model: model, userService: userService, name: name)
             
         case.loginVC:
             return LogInViewController()
