@@ -14,6 +14,7 @@ protocol LoginViewControllerDelegate: AnyObject {
 class LogInViewController: UIViewController {
     
     var delegate: LoginViewControllerDelegate?
+    var toProfileVC: ((String)->Void)?
     
     private var keyboardHelper: KeyboardHelper?
     let loginView = LogInView()
@@ -95,12 +96,11 @@ class LogInViewController: UIViewController {
     }
     
      func loginButtonPress() {
-        let profileVC = ProfileViewController(userService: CurrentUserService(), name: loginView.loginText.text ?? "")
         guard let delegate = delegate else { return }
         if let loginText = loginView.loginText.text,
            let passwordText = loginView.passwordText.text,
-           delegate.check(login: loginText, password: passwordText){
-            navigationController?.pushViewController(profileVC, animated: true)
+           delegate.check(login: loginText, password: passwordText){           
+            toProfileVC?(loginText)
         } else {
             showWrongLoginPasswordAlert()
         }   

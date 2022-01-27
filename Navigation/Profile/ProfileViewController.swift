@@ -17,6 +17,7 @@ class ProfileViewController: UIViewController {
         case sectionHeader = "TableViewHeaderSectionID"
         case photoCell = "PhotoTableViewCellID"
     }
+    var toPhotoVC: (()-> Void)?
     var name: String
     var userService: UserService
     let postModel: [Post] = Posts.createMockData()
@@ -118,7 +119,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
+        
         switch indexPath.section{
         case 0:
             let reUseID = CellReuseID.photoCell.rawValue
@@ -160,8 +161,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
     
     func tapArrow(){
-        let photoVc = PhotosViewController()
-        navigationController?.pushViewController(photoVc, animated: true)
+        toPhotoVC?()
     }
     
 }

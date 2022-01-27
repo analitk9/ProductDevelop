@@ -14,7 +14,6 @@ class PhotosViewController: UIViewController {
     }
     
     let imagePublisher = ImagePublisherFacade()
-    
     var photoModel: [UIImage] = []
     let collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())

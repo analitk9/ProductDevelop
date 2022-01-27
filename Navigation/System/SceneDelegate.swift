@@ -10,27 +10,17 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
-    let loginFactory = MyLoginFactory()
+    private var viewControllerFactory: ViewControllerFactoryProtocol!
+    private var appCoordinator: ApplicationCoordinator!
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        guard let _ = (scene as? UIWindowScene) else { return }
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window?.windowScene = windowScene
-        let feedVC = FeedViewController()
-        let loginVC =  LogInViewController()
-        loginVC.delegate = loginFactory.createLogInspector()
-        let firstNavController = UINavigationController(rootViewController: feedVC)
-        let secondNavController = UINavigationController(rootViewController: loginVC)
+        guard let scene = (scene as? UIWindowScene) else { return }
+        viewControllerFactory = ViewControllerFactory()
+        appCoordinator = ApplicationCoordinator(scene: scene, factory: viewControllerFactory)
+        appCoordinator.start()
         
-        let tbController = UITabBarController()
-        tbController.setViewControllers([firstNavController,secondNavController], animated: true)
-        tbController.selectedViewController = tbController.viewControllers?.first
-        
-        window?.rootViewController = tbController
-        window?.makeKeyAndVisible()
+
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
