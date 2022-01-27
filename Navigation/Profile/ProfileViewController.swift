@@ -16,10 +16,10 @@ class ProfileViewController: UIViewController {
         case sectionHeader = "TableViewHeaderSectionID"
         case photoCell = "PhotoTableViewCellID"
     }
-
+    
     var name: String
     var userService: UserService
-
+    
     var profileViewModel: ProfileViewModel
     
     let tableView: UITableView = {
@@ -94,11 +94,10 @@ class ProfileViewController: UIViewController {
                 self.tableView.reloadData()
                 
             case let .imageFiltered(filteredImage, indexPath):
-               let cell = self.tableView.cellForRow(at: indexPath) as! PostTableViewCell
-                cell.applyImageFilter(filteredImage)
-               
+                    let cell = self.tableView.cellForRow(at: indexPath) as! PostTableViewCell
+                    cell.applyImageFilter(filteredImage)
             default:
-              print("initial")
+                print("initial")
             }
         }
     }
@@ -130,7 +129,7 @@ extension ProfileViewController: UITableViewDataSource {
         if section == 0 {
             return 1
         } else {
-            return profileViewModel.postModel.count //   postModel.count
+            return profileViewModel.postModel.count
         }
     }
     

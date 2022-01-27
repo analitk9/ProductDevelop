@@ -47,7 +47,7 @@ class ProfileViewModel {
     }
     
     func applyFilter(to image: UIImage, in indexPath: IndexPath){
-        imageProcessor.processImageAsync(sourceImage:image, filter: ColorFilter.colorInvert) { resultImage in //.allCases.randomElement()!
+        imageProcessor.processImageAsync(sourceImage:image, filter: ColorFilter.allCases.randomElement()!) { resultImage in
             guard let resultImage = resultImage else {fatalError()}
             DispatchQueue.main.async { [weak self] in
                 let resultImage = UIImage(cgImage: resultImage)
