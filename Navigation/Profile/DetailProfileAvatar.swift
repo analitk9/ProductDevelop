@@ -41,8 +41,8 @@ class DetailProfileAvatar: UIView {
         return image
     }()
     
-    let closeButton: UIButton = {
-        let but = UIButton()
+    let closeButton: CustomButton = {
+        let but = CustomButton(frame: .zero, title: nil, tintColor: nil)
         let conf = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy, scale: .large)
         let image = UIImage(systemName: "xmark.circle",withConfiguration: conf)
         but.alpha = 0.0
@@ -51,14 +51,13 @@ class DetailProfileAvatar: UIView {
         but.layer.cornerRadius = but.bounds.size.width / 2
         but.clipsToBounds = true
         but.translatesAutoresizingMaskIntoConstraints = false
-        but.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
         return but
     }()
  
     
     init(with clickView: UIView, frame: CGRect){
         super.init(frame: frame)
-        
+        closeButton.onTap = closeTap
         backgroundColor = .clear
         self.clickView = clickView
         alfaView.frame.size = frame.size
@@ -98,7 +97,7 @@ class DetailProfileAvatar: UIView {
         }
     }
     
-    @objc func closeTap(){
+     func closeTap(){
 
         buttonAnimator.isReversed = true
         buttonAnimator.pausesOnCompletion = false

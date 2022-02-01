@@ -33,6 +33,8 @@
 		64C15871272596DF0078860D /* StatusTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C15870272596DF0078860D /* StatusTextField.swift */; };
 		64C15873272599500078860D /* ProfileAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C15872272599500078860D /* ProfileAvatarView.swift */; };
 		64C1587627259B870078860D /* StatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C1587527259B870078860D /* StatusButton.swift */; };
+		64D2C6F02798135100DED7E5 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D2C6EF2798135100DED7E5 /* CustomButton.swift */; };
+		64D2C6F2279D636000DED7E5 /* PasswordCheckerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D2C6F1279D636000DED7E5 /* PasswordCheckerModel.swift */; };
 		64D748FB277856D8009B7677 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D748FA277856D8009B7677 /* User.swift */; };
 		64D748FD277859E1009B7677 /* CurrentUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D748FC277859E1009B7677 /* CurrentUserService.swift */; };
 		64D7490027786907009B7677 /* TestUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D748FF27786907009B7677 /* TestUserService.swift */; };
@@ -69,6 +71,8 @@
 		64C15870272596DF0078860D /* StatusTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTextField.swift; sourceTree = "<group>"; };
 		64C15872272599500078860D /* ProfileAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAvatarView.swift; sourceTree = "<group>"; };
 		64C1587527259B870078860D /* StatusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusButton.swift; sourceTree = "<group>"; };
+		64D2C6EF2798135100DED7E5 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		64D2C6F1279D636000DED7E5 /* PasswordCheckerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordCheckerModel.swift; sourceTree = "<group>"; };
 		64D748FA277856D8009B7677 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		64D748FC277859E1009B7677 /* CurrentUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserService.swift; sourceTree = "<group>"; };
 		64D748FF27786907009B7677 /* TestUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserService.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 				64752270271C224300014ECF /* PostViewController.swift */,
 				64752274271C22FA00014ECF /* InfoViewController.swift */,
 				649D27162732C56B006F15EB /* KeyboardHelper.swift */,
+				64D2C6EF2798135100DED7E5 /* CustomButton.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 				64752272271C227A00014ECF /* Post.swift */,
 				64D748FA277856D8009B7677 /* User.swift */,
 				641982552742D11A008C9A41 /* Photo.swift */,
+				64D2C6F1279D636000DED7E5 /* PasswordCheckerModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -358,6 +364,7 @@
 				641982592742E0E8008C9A41 /* PhotosViewController.swift in Sources */,
 				64752271271C224300014ECF /* PostViewController.swift in Sources */,
 				64752258271C1EAD00014ECF /* AppDelegate.swift in Sources */,
+				64D2C6F02798135100DED7E5 /* CustomButton.swift in Sources */,
 				641982542742920A008C9A41 /* PhotosTableViewCell.swift in Sources */,
 				6475226F271C223000014ECF /* ProfileViewController.swift in Sources */,
 				649D27172732C56B006F15EB /* KeyboardHelper.swift in Sources */,
@@ -372,6 +379,7 @@
 				64C15873272599500078860D /* ProfileAvatarView.swift in Sources */,
 				649D271127328854006F15EB /* LogInView.swift in Sources */,
 				64C15871272596DF0078860D /* StatusTextField.swift in Sources */,
+				64D2C6F2279D636000DED7E5 /* PasswordCheckerModel.swift in Sources */,
 				641982562742D11A008C9A41 /* Photo.swift in Sources */,
 				6419825B2742E3E4008C9A41 /* PhotoCollectionViewCell.swift in Sources */,
 				64D748FD277859E1009B7677 /* CurrentUserService.swift in Sources */,
