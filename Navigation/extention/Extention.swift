@@ -30,14 +30,12 @@ extension UITextField {
         self.leftView = UIView(frame: rect)
         self.leftViewMode = .always
     }
-    
 }
 
 extension UIView {
     func addSubviews(_ views: [UIView]){
         views.forEach { addSubview($0)}
     }
-    
 }
 
 

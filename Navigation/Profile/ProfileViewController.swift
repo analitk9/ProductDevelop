@@ -16,7 +16,8 @@ class ProfileViewController: UIViewController {
         case sectionHeader = "TableViewHeaderSectionID"
         case photoCell = "PhotoTableViewCellID"
     }
-    
+    var name: String
+    var userService: UserService
     let postModel: [Post] = Posts.createMockData()
     let photoModel: [Photo] = Photos.createMockPhotos()
     
@@ -28,7 +29,14 @@ class ProfileViewController: UIViewController {
     
     var detailProfileView: DetailProfileAvatar?
     
-    init() {
+    init(userService: UserService, name: String) {
+       
+#if DEBUG
+        self.userService = TestUserService()
+#else
+        self.userService = userService
+#endif
+        self.name = name
         super.init(nibName: nil, bundle: nil)
         configureTabBarItem()
     }
@@ -46,6 +54,7 @@ class ProfileViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
         
         view.addSubview(tableView)
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: CellReuseID.default.rawValue)
@@ -113,6 +122,7 @@ extension ProfileViewController: UITableViewDataSource {
         case 0:
             let reUseID = CellReuseID.photoCell.rawValue
             guard let cell = tableView.dequeueReusableCell(withIdentifier: reUseID, for: indexPath) as? PhotosTableViewCell else { fatalError() }
+            cell.tapHandler = tapArrow
             cell.configure(with: photoModel.suffix(4))
             return cell
         case 1:
@@ -132,19 +142,18 @@ extension ProfileViewController: UITableViewDataSource {
             let reuseId = CellReuseID.sectionHeader.rawValue
             guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                                                                         reuseId) as? ProfileHeaderView else { fatalError() }
+            if let currentUser = userService.returnUser(for: name){
+                view.profileNameLabel.text = currentUser.name
+            }
             view.tapAvatarViewDelegate = self
             return view
         }
         return nil
     }
     
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-             if indexPath.section == 0 {
-                 let photoVc = PhotosViewController()
-                 self.navigationController?.pushViewController(photoVc, animated: true)
-             }
-        tableView.resignFirstResponder()
+    func tapArrow(){
+        let photoVc = PhotosViewController()
+        navigationController?.pushViewController(photoVc, animated: true)
     }
     
 }

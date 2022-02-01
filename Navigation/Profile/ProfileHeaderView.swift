@@ -1,12 +1,12 @@
 //
-//  ProfileTableHeaderView.swift
+//  ProfileHeaderView.swift
 //  Navigation
 //
 //  Created by Denis Evdokimov on 10/20/21.
 //
 
 import UIKit
-
+import SnapKit
 protocol tapAvatarViewProtocol {
    
     func tapHandler(_ gesture: UITapGestureRecognizer)
@@ -36,7 +36,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     let profileAvatarView: UIImageView = {
         let rect = CGRect(x: 0, y: 0, width: Constans.avatarViewSideSize, height: Constans.avatarViewSideSize)
         let image = ProfileAvatarView(frame: rect)
-        image.translatesAutoresizingMaskIntoConstraints = false
         image.configure()
         return image
     }()
@@ -52,7 +51,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         label.text = "Waiting for something..."
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -61,7 +59,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         label.text = "Hipster Cat"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -93,42 +90,31 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     }
     
     func configureLayout(){
-        let profileAvatarViewConstraint: [NSLayoutConstraint] = [
-            profileAvatarView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constans.padding),
-            profileAvatarView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constans.padding),
-            profileAvatarView.widthAnchor.constraint(equalToConstant: Constans.avatarViewSideSize),
-            profileAvatarView.heightAnchor.constraint(equalToConstant: Constans.avatarViewSideSize)
-        ]
-        
-        let statusButtonConstraint: [NSLayoutConstraint] = [
-            statusButton.heightAnchor.constraint(equalToConstant: Constans.statusButtonHeight),
-            statusButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constans.padding),
-            statusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constans.padding),
-            statusButton.topAnchor.constraint(equalTo: profileAvatarView.bottomAnchor, constant: Constans.padding * 2)
-        ]
-        
-        let profileNameLabelConstraint: [NSLayoutConstraint] = [
-            profileNameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            profileNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constans.padding)
-        ]
-        
-        let statusTextLabelConstraint: [NSLayoutConstraint] = [
-            statusTextLabel.leadingAnchor.constraint(equalTo: profileNameLabel.leadingAnchor)
-        ]
-        
-        let statusTextFieldConstraint: [NSLayoutConstraint] = [
-            statusTextField.heightAnchor.constraint(equalToConstant: Constans.statusTextFieldHeight),
-            statusTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constans.padding),
-            statusTextField.topAnchor.constraint(equalTo: statusTextLabel.bottomAnchor, constant: Constans.padding),
-            statusTextField.leadingAnchor.constraint(equalTo: statusTextLabel.leadingAnchor),
-            statusTextField.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -Constans.statusTextFieldHeightPadding)
-        ]
-        
-        NSLayoutConstraint.activate( profileAvatarViewConstraint +
-                                     statusButtonConstraint +
-                                     profileNameLabelConstraint +
-                                     statusTextLabelConstraint +
-                                     statusTextFieldConstraint)
+        profileAvatarView.snp.makeConstraints{make in
+            make.leading.equalTo(contentView.snp.leading).offset(Constans.padding)
+            make.top.equalTo(contentView.snp.top).offset(Constans.padding)
+            make.size.equalTo(CGSize(width: Constans.avatarViewSideSize, height: Constans.avatarViewSideSize))
+        }
+        statusButton.snp.makeConstraints { make in
+            make.height.equalTo(Constans.statusButtonHeight)
+            make.leading.equalTo(contentView.snp.leading).offset(Constans.padding)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-Constans.padding)
+            make.top.equalTo(profileAvatarView.snp.bottom).offset(Constans.padding*2)
+        }
+        profileNameLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.top.equalTo(contentView.snp.top).offset(Constans.padding)
+        }
+        statusTextLabel.snp.makeConstraints { make in
+            make.leading.equalTo(profileNameLabel.snp.leading)
+        }
+        statusTextField.snp.makeConstraints { make in
+            make.height.equalTo(Constans.statusTextFieldHeight)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-Constans.padding)
+            make.top.equalTo(statusTextLabel.snp.bottom).offset(Constans.padding)
+            make.leading.equalTo(statusTextLabel.snp.leading)
+            make.bottom.equalTo(statusButton.snp.top).offset(-Constans.statusTextFieldHeightPadding)
+        }
         
     }
     

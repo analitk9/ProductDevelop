@@ -11,6 +11,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    let loginFactory = MyLoginFactory()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
@@ -20,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         let feedVC = FeedViewController()
         let loginVC =  LogInViewController()
-        
+        loginVC.delegate = loginFactory.createLogInspector()
         let firstNavController = UINavigationController(rootViewController: feedVC)
         let secondNavController = UINavigationController(rootViewController: loginVC)
         
