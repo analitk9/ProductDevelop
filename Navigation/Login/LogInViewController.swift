@@ -44,7 +44,7 @@ class LogInViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(loginView)
         
-        loginView.logInButton.addTarget(self, action: #selector(loginButtonPress), for: .touchUpInside)
+        loginView.logInButton.onTap = loginButtonPress
         loginView.loginText.delegate = self
         loginView.passwordText.delegate = self
         
@@ -94,7 +94,7 @@ class LogInViewController: UIViewController {
         tabBarItem.tag = 20
     }
     
-    @objc func loginButtonPress() {
+     func loginButtonPress() {
         let profileVC = ProfileViewController(userService: CurrentUserService(), name: loginView.loginText.text ?? "")
         guard let delegate = delegate else { return }
         if let loginText = loginView.loginText.text,
@@ -112,10 +112,8 @@ class LogInViewController: UIViewController {
    
         alertVC.addAction(button1)
 
-        self.present(alertVC, animated: true, completion: nil)
-        
+        self.present(alertVC, animated: true, completion: nil)        
     }
-    
 }
 
 extension LogInViewController: UITextFieldDelegate {

@@ -14,12 +14,12 @@ class StatusTextField: UITextField {
         static let borderWidth: CGFloat = 1
         static let fontSize: CGFloat = 15
     }
-    func configure() {
+    func configure(with placeholder: String = "") {
         let currentFont = UIFont.systemFont(ofSize: Constants.fontSize, weight: .regular)
         font = currentFont
         textColor = .black
         backgroundColor = .white
-        placeholder = "Waiting for something..."
+        self.placeholder = placeholder
         self.indent(size: Constants.indent)
         leftViewMode = .always
         layer.cornerRadius = Constants.indent
