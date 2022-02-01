@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class ProfileViewController: UIViewController {
-
     
+    let imageProcessor = ImageProcessor()
     
     fileprivate enum CellReuseID: String {
         case `default` = "TableViewCellReuseIDDefault"
@@ -30,7 +31,7 @@ class ProfileViewController: UIViewController {
     var detailProfileView: DetailProfileAvatar?
     
     init(userService: UserService, name: String) {
-       
+        
 #if DEBUG
         self.userService = TestUserService()
 #else
@@ -128,16 +129,23 @@ extension ProfileViewController: UITableViewDataSource {
         case 1:
             let reuseID = CellReuseID.default.rawValue
             guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? PostTableViewCell else { fatalError() }
-            cell.configure(postModel[indexPath.row])
+            let post = postModel[indexPath.row]
+            cell.configure(post)
+            guard let image = UIImage(named: post.image) else {fatalError()}
+            imageProcessor.processImageAsync(sourceImage:image, filter: ColorFilter.allCases.randomElement()!) { resultImage in
+                guard let resultImage = resultImage else {fatalError()}
+                DispatchQueue.main.async {
+                    cell.applyImageFilter(UIImage(cgImage: resultImage))
+                }
+            }
             return cell
         default:
             return UITableViewCell()
         }
-        
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
+        
         if section == 0 {
             let reuseId = CellReuseID.sectionHeader.rawValue
             guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
@@ -160,16 +168,16 @@ extension ProfileViewController: UITableViewDataSource {
 
 extension ProfileViewController: tapAvatarViewProtocol {
     
-
+    
     func tapHandler(_ gesture: UITapGestureRecognizer) {
         guard let avatarImage = gesture.view else { return }
         avatarImage.isHidden = true
         detailProfileView = DetailProfileAvatar(with: avatarImage, frame: .zero)
-       
+        
         guard let showView = detailProfileView else {return}
         showView.frame.size = view.frame.size
         view.addSubview(showView)
-
+        
         showView.profileAvatarView.frame = avatarImage.convert(avatarImage.bounds, to: view)
         showView.startRect = showView.profileAvatarView.frame
         showView.avatarAnimator.startAnimation()

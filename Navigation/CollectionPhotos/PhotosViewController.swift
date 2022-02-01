@@ -11,11 +11,11 @@ import iOSIntPackage
 class PhotosViewController: UIViewController {
     fileprivate enum CellReuseID: String {
         case `default` = "collectionViewCell"
-        
     }
-    let imageProcessor = ImageProcessor()
-    let photoModel: [Photo] = Photos.createMockPhotos()
     
+    let imagePublisher = ImagePublisherFacade()
+    
+    var photoModel: [UIImage] = []
     let collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -26,12 +26,18 @@ class PhotosViewController: UIViewController {
     private let sectionInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     private let itemsPerRow: CGFloat = 3
     
+    deinit {
+        imagePublisher.removeSubscription(for: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        imagePublisher.subscribe(self)
+        imagePublisher.addImagesWithTimer(time: 1, repeat: 30)
         navigationItem.title = "Photo Gallery"
         navigationController?.navigationBar.prefersLargeTitles = false
         view.backgroundColor = .white
-    
+        
         view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -54,11 +60,11 @@ class PhotosViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ].forEach { $0.isActive = true }
     }
-
+    
 }
 
 extension PhotosViewController: UICollectionViewDelegate{
-  
+    
     
 }
 
@@ -70,32 +76,34 @@ extension PhotosViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cel = collectionView.dequeueReusableCell(withReuseIdentifier:
                                                             CellReuseID.default.rawValue, for: indexPath) as? PhotoCollectionViewCell  else { fatalError()}
-        guard let image = UIImage(named: photoModel[indexPath.item].name) else {fatalError()}
-
-        imageProcessor.processImageAsync(sourceImage: image, filter: ColorFilter.allCases.randomElement()!) { resultImage in
-            guard let resultImage = resultImage else {fatalError()}
-            DispatchQueue.main.async {
-                cel.configure(with: UIImage(cgImage: resultImage))
-            }
-        }
+        let curImage = photoModel[indexPath.row]
+        cel.configure(with: curImage)
         return cel
     }
-
+    
 }
 
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      let paddingSpace = 2*sectionInsets.left + (itemsPerRow + 1)*sectionInsets.left
-      let availableWidth = UIScreen.main.bounds.width - paddingSpace
-      let widthPerItem = round(availableWidth / itemsPerRow)
-      return CGSize(width: widthPerItem, height: widthPerItem)
+        let paddingSpace = 2*sectionInsets.left + (itemsPerRow + 1)*sectionInsets.left
+        let availableWidth = UIScreen.main.bounds.width - paddingSpace
+        let widthPerItem = round(availableWidth / itemsPerRow)
+        return CGSize(width: widthPerItem, height: widthPerItem)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int ) -> UIEdgeInsets {
-      return sectionInsets
+        return sectionInsets
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-      return sectionInsets.left
+        return sectionInsets.left
+    }
+}
+
+extension PhotosViewController: ImageLibrarySubscriber {
+    
+    func receive(images: [UIImage]){
+        photoModel = images
+        collectionView.reloadData()
     }
 }

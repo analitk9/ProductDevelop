@@ -119,6 +119,10 @@ class PostTableViewCell: UITableViewCell {
         layoutSubviews()
     }
     
+    func applyImageFilter(_ filterImage: UIImage){
+        postImage.image = filterImage
+    }
+    
     func separate(){
         mySeparator.layer.borderColor = UIColor.lightGray.cgColor
         mySeparator.layer.borderWidth = 1.0
