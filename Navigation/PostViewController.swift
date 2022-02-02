@@ -8,19 +8,20 @@
 import UIKit
 
 class PostViewController: UIViewController {
+    
     var curentPost: Post?
+    var toInfoVC: ((UIViewController)->Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let post = curentPost {
             title = post.title
-           view.backgroundColor = .lightGray
+            view.backgroundColor = .lightGray
         }
         configureBarButton()
         
     }
-    
     func configureBarButton() {
         let infoBarButton = UIBarButtonItem(image: UIImage(systemName: "info"),
                                             style:.plain, target: self,
@@ -30,9 +31,7 @@ class PostViewController: UIViewController {
     
     
     @objc func infoVCModal() {
-        let vc = InfoViewController()
-        vc.modalPresentationStyle = .formSheet
-        present(vc, animated: true, completion: nil)
+        toInfoVC?(self)
     }
     
 }
