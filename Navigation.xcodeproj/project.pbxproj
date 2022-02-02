@@ -16,6 +16,7 @@
 		6443DF0E277B30F40069A40F /* LoginFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6443DF0D277B30F40069A40F /* LoginFactory.swift */; };
 		6451B24F2743EB12001F7CD7 /* DetailProfileAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6451B24E2743EB12001F7CD7 /* DetailProfileAvatar.swift */; };
 		645F74EF2720116900949BC3 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645F74EE2720116900949BC3 /* ProfileHeaderView.swift */; };
+		6460179C27A983F900566663 /* BruteForceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6460179B27A983F900566663 /* BruteForceService.swift */; };
 		64752258271C1EAD00014ECF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64752257271C1EAD00014ECF /* AppDelegate.swift */; };
 		6475225A271C1EAD00014ECF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64752259271C1EAD00014ECF /* SceneDelegate.swift */; };
 		64752261271C1EAF00014ECF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64752260271C1EAF00014ECF /* Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		6443DF0D277B30F40069A40F /* LoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFactory.swift; sourceTree = "<group>"; };
 		6451B24E2743EB12001F7CD7 /* DetailProfileAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProfileAvatar.swift; sourceTree = "<group>"; };
 		645F74EE2720116900949BC3 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		6460179B27A983F900566663 /* BruteForceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForceService.swift; sourceTree = "<group>"; };
 		64752254271C1EAD00014ECF /* Navigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64752257271C1EAD00014ECF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		64752259271C1EAD00014ECF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				64D748FF27786907009B7677 /* TestUserService.swift */,
 				6443DF08277B29950069A40F /* Checker.swift */,
 				6443DF0A277B2D110069A40F /* LoginInspector.swift */,
+				6460179B27A983F900566663 /* BruteForceService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				64D2C76B279ED28000DED7E5 /* PhotoViewCoordinator.swift in Sources */,
 				649D271527329240006F15EB /* Extention.swift in Sources */,
 				6443DF09277B29950069A40F /* Checker.swift in Sources */,
+				6460179C27A983F900566663 /* BruteForceService.swift in Sources */,
 				64D748FB277856D8009B7677 /* User.swift in Sources */,
 				649D270F2732804A006F15EB /* LogInViewController.swift in Sources */,
 				64D2C76F27A1457A00DED7E5 /* ViewControllerFactory.swift in Sources */,

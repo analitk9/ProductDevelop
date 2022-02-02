@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 protocol LoginViewControllerDelegate: AnyObject {
     func check(login: String, password: String)-> Bool
 }
@@ -46,6 +47,7 @@ class LogInViewController: UIViewController {
         scrollView.addSubview(loginView)
         
         loginView.logInButton.onTap = loginButtonPress
+        loginView.bruteForceButton.onTap = bruteForcePress
         loginView.loginText.delegate = self
         loginView.passwordText.delegate = self
         
@@ -104,6 +106,21 @@ class LogInViewController: UIViewController {
         } else {
             showWrongLoginPasswordAlert()
         }   
+    }
+    
+    func bruteForcePress (){
+        loginView.spinnerView.startAnimating()
+        DispatchQueue.global(qos: .background).async {
+            let bfService = BruteForceService()
+            bfService.bruteForce(passwordToUnlock: "112233"){[weak self] pass in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    self.loginView.spinnerView.stopAnimating()
+                    self.loginView.passwordText.isSecureTextEntry = false
+                    self.loginView.passwordText.text = pass
+                }
+            }
+        }
     }
     
     func showWrongLoginPasswordAlert() {
