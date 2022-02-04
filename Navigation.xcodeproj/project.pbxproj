@@ -193,7 +193,6 @@
 				6475226B271C214F00014ECF /* System */,
 				64752270271C224300014ECF /* PostViewController.swift */,
 				64752274271C22FA00014ECF /* InfoViewController.swift */,
-				649D27162732C56B006F15EB /* KeyboardHelper.swift */,
 				64D2C6EF2798135100DED7E5 /* CustomButton.swift */,
 			);
 			path = Navigation;
@@ -275,6 +274,7 @@
 		64D748FE277865D4009B7677 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				649D27162732C56B006F15EB /* KeyboardHelper.swift */,
 				64D748FC277859E1009B7677 /* CurrentUserService.swift */,
 				64D2C6F1279D636000DED7E5 /* PasswordCheckerService.swift */,
 				64D748FF27786907009B7677 /* TestUserService.swift */,

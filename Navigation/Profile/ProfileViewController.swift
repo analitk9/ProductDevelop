@@ -91,16 +91,46 @@ class ProfileViewController: UIViewController {
             guard let self = self else { return }
             switch state {
             case .loaded:
-                self.tableView.reloadData()
                 
+                self.tableView.reloadData()
             case let .imageFiltered(filteredImage, indexPath):
-                    let cell = self.tableView.cellForRow(at: indexPath) as! PostTableViewCell
-                    cell.applyImageFilter(filteredImage)
+                
+                guard  let cell = self.tableView.cellForRow(at: indexPath) as? PostTableViewCell else {return}
+                cell.applyImageFilter(filteredImage)
+            case let .updateTimer(timerCount):
+                
+                DispatchQueue.main.async { [self] in
+                    guard let profileView =  self.tableView.headerView(forSection: 0) as? ProfileHeaderView else {return}
+                    profileView.timerLabel.text = String(timerCount)
+                }
+            case .newPost:
+                
+                DispatchQueue.main.async { [ self] in
+                    self.showNewsAlert()
+                }
             default:
                 print("initial")
             }
         }
     }
+    
+    func showNewsAlert() {
+        let alertVC = UIAlertController(title: "Новость", message: "Пришла новая новость !", preferredStyle: .alert)
+        let button1 = UIAlertAction(title: "Ok", style: .default) { _ in
+            self.profileViewModel.send(.newPostTake)
+            self.tableView.reloadData()
+        }
+        let button2 = UIAlertAction(title: "Stop timer", style: .default) { _ in
+            self.profileViewModel.send(.stopTimer)
+            self.tableView.reloadData()
+        }
+        
+        alertVC.addAction(button1)
+        alertVC.addAction(button2)
+        
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
     
 }
 

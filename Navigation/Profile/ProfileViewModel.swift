@@ -21,6 +21,8 @@ class ProfileViewModel {
     let imageProcessor = ImageProcessor()
     private let postsService: Posts
     private let photoService: Photos
+    private var postTimer: Timer?
+    private var timerCount = 4
     
     init(postsService: Posts, photoService: Photos) {
         self.postsService = postsService
@@ -37,7 +39,53 @@ class ProfileViewModel {
             
         case .viewIsReady:
             fetch()
+            createTimer()
+        
+        case .newPostTake:
+            createTimer()
+        
+        case .stopTimer:
+            cancelTimer()
         }
+    }
+    
+    private func createTimer() {
+        postTimer = Timer(timeInterval: 1.0,
+                          target: self,
+                          selector: #selector(updateTimer),
+                          userInfo: nil,
+                          repeats: true)
+        postTimer?.tolerance = 0.1
+        
+            DispatchQueue.global().async {
+                guard let postTimer = self.postTimer else {return}
+                RunLoop.current.add(postTimer, forMode: .common)
+                RunLoop.current.run()
+               
+            }
+        
+    }
+    
+    private func cancelTimer() {
+   
+        postTimer?.invalidate()
+        postTimer = nil
+       
+    }
+    
+    
+  @objc private func updateTimer() {
+      if timerCount != 0 {
+          timerCount -= 1
+      }else {
+          timerCount = 4
+          cancelTimer()
+          postModel.append(postModel.randomElement()!)
+          state = .newPost
+         
+      }
+      state = .updateTimer(timerCount)
+
     }
     
     private func fetch(){
@@ -64,12 +112,16 @@ extension ProfileViewModel {
         case viewIsReady
         case pressButtonToPhotoVC
         case setupImageFilter(UIImage, IndexPath)
+        case newPostTake
+        case stopTimer
     }
     
     enum ProfileState { // состояния модели
         
         case initial
         case imageFiltered(UIImage, IndexPath)
+        case updateTimer(Int)
+        case newPost
         case loaded
         
     }
