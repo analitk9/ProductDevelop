@@ -9,7 +9,7 @@ import UIKit
 
 
 protocol LoginViewControllerDelegate: AnyObject {
-    func check(login: String, password: String)-> Bool
+    func check(login: String, password: String) throws -> Bool
 }
 
 class LogInViewController: UIViewController {
@@ -28,6 +28,8 @@ class LogInViewController: UIViewController {
         return scroll
     }()
     
+    private let errorAlertService = ErrorAlertService()
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         configureTabBarItem()
@@ -39,7 +41,6 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         
@@ -98,15 +99,23 @@ class LogInViewController: UIViewController {
     }
     
      func loginButtonPress() {
-        guard let delegate = delegate else { return }
-        if let loginText = loginView.loginText.text,
-           let passwordText = loginView.passwordText.text,
-           delegate.check(login: loginText, password: passwordText){           
-            toProfileVC?(loginText)
-        } else {
-            showWrongLoginPasswordAlert()
-        }   
-    }
+        
+         guard let delegate = delegate else { return }
+         guard let loginText = loginView.loginText.text else { return }
+         guard let passwordText = loginView.passwordText.text else { return }
+     
+         do {
+            let res = try delegate.check(login: loginText, password: passwordText)
+             if res {
+                 toProfileVC?(loginText)
+             }
+         }catch  {
+             let loginError = error as! LoginError
+             let alert = errorAlertService.createAlert(loginError.errorDescription)
+             present(alert,animated: true)
+         }
+     }
+    
     
     func bruteForcePress (){
         loginView.spinnerView.startAnimating()

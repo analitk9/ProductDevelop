@@ -108,6 +108,10 @@ class ProfileViewController: UIViewController {
                 DispatchQueue.main.async { [ self] in
                     self.showNewsAlert()
                 }
+            case let .postError(postError):
+
+               let alert = ErrorAlertService().createAlert(postError.errorDescription)
+                self.present(alert, animated: true, completion: nil)
             default:
                 print("initial")
             }
@@ -191,9 +195,19 @@ extension ProfileViewController: UITableViewDataSource {
         if section == 0 {
             let reuseId = CellReuseID.sectionHeader.rawValue
             guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
-                                                                        reuseId) as? ProfileHeaderView else { fatalError() }
-            if let currentUser = userService.returnUser(for: name){
+                                                                        reuseId) as? ProfileHeaderView else { preconditionFailure("ProfileHeaderView not found!") }
+            do {
+                let currentUser = try userService.returnUser(for: name)
                 view.profileNameLabel.text = currentUser.name
+            
+            }catch let userError as UserServiceError {
+               
+                let alert = ErrorAlertService().createAlert(userError.errorDescription)
+                present(alert, animated: true, completion: nil)
+            } catch {
+                
+                let alert = ErrorAlertService().createAlert(error.localizedDescription)
+                present(alert, animated: true, completion: nil)
             }
             view.tapAvatarViewDelegate = self
             return view

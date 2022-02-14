@@ -40,10 +40,10 @@ class ProfileViewModel {
         case .viewIsReady:
             fetch()
             createTimer()
-        
+            
         case .newPostTake:
             createTimer()
-        
+            
         case .stopTimer:
             cancelTimer()
         }
@@ -89,7 +89,17 @@ class ProfileViewModel {
     }
     
     private func fetch(){
-        postModel = postsService.createMockData()
+        postsService.fetchPosts({ [weak self] result in
+            switch result{
+            case let .success(posts):
+                self?.postModel = posts
+            case let .failure(postError):
+                DispatchQueue.main.async {
+                    self?.state = .postError(postError)
+                    self?.cancelTimer()
+                }
+            }
+        })
         photoModel = photoService.createMockPhotos()
         state = .loaded
     }
@@ -123,6 +133,7 @@ extension ProfileViewModel {
         case updateTimer(Int)
         case newPost
         case loaded
+        case postError(PostError)
         
     }
 }
