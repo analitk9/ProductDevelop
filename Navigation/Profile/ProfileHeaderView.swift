@@ -31,6 +31,13 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return field
     }()
     
+    let timerLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "4"
+        return label
+    }()
+    
     var tapAvatarViewDelegate: tapAvatarViewProtocol?
     
     let profileAvatarView: UIImageView = {
@@ -74,7 +81,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         profileAvatarView.isUserInteractionEnabled = true
         
         
-        contentView.addSubviews([statusTextLabel, profileNameLabel, profileAvatarView, statusButton, statusTextField])
+        contentView.addSubviews([statusTextLabel, profileNameLabel, profileAvatarView, statusButton, statusTextField,timerLabel])
         contentView.backgroundColor = UIColor(red: 199/255, green: 198/255, blue: 205/255, alpha: 1)
         
         
@@ -114,6 +121,11 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
             make.top.equalTo(statusTextLabel.snp.bottom).offset(Constans.padding)
             make.leading.equalTo(statusTextLabel.snp.leading)
             make.bottom.equalTo(statusButton.snp.top).offset(-Constans.statusTextFieldHeightPadding)
+        }
+        
+        timerLabel.snp.makeConstraints { make in
+            make.top.equalTo(Constans.padding)
+            make.right.equalTo(-Constans.padding)
         }
         
     }
