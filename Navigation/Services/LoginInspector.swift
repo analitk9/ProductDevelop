@@ -8,7 +8,7 @@
 import Foundation
 
 class LoginInspector: LoginViewControllerDelegate {
-    func check(login: String, password: String) -> Bool {
-        Checker.shared.verify(login: login, password: password)
+    func check(login: String, password: String)throws -> Bool {
+         try Checker.shared.verify(login: login, password: password)
     }
 }

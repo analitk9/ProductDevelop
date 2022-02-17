@@ -7,7 +7,7 @@
 
 import Foundation
 protocol UserService {
-    func returnUser(for name: String)-> User?
+    func returnUser(for name: String) throws -> User
 }
 
 class User {

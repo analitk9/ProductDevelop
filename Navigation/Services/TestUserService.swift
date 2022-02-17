@@ -14,7 +14,7 @@ class TestUserService{
 }
 
 extension TestUserService: UserService {
-    func returnUser(for name: String) -> User? {
+    func returnUser(for name: String)throws -> User {
         user
     }
 }

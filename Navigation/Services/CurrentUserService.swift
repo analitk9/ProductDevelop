@@ -13,12 +13,10 @@ class CurrentUserService{
 }
 extension CurrentUserService: UserService{
     
-    func returnUser(for name: String) -> User? {
+    func returnUser(for name: String) throws -> User {
         if  name == user?.name {
-            return user
+            return user!
         }
-        return nil
+        throw  UserServiceError.userNotFound
     }
-    
-    
 }
