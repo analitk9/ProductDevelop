@@ -9,8 +9,8 @@ import UIKit
 
 class FeedViewController: UIViewController {
     
-    let passwordCheckerModel = PasswordCheckerModel(password: "pass")
-    
+    private var viewModel: FeedViewModel
+
     let stack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -32,20 +32,16 @@ class FeedViewController: UIViewController {
         return label
     }()
     
-    init(){
+    init(model: FeedViewModel){
+        self.viewModel = model
         super.init(nibName: nil, bundle: nil)
         configureTabBarItem()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(checkWord), name: NSNotification.Name(NSNotification.checkPassword), object: nil)
     }
     
     required init(coder aDecoder: NSCoder) {
         fatalError("NSCoding not supported")
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(NSNotification.checkPassword), object: nil)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,9 +49,21 @@ class FeedViewController: UIViewController {
         title = "Feed"
         view.addSubview(stack)
         configureStack()
-        
+        setupViewModel()
     }
     
+    private func setupViewModel() {
+        viewModel.onStateChanged = { [weak self] state in // тут мы принимаем от модели изменение ее состояния и реагируем на них
+            guard let self = self else { return }
+            switch state {
+            case let .checkedPassword(checkResalt):
+                self.colorCkeckLabel.backgroundColor =  checkResalt ? UIColor.green : UIColor.red
+            default: break
+                
+            }
+            
+        }
+    }
     func configureStack(){
         let _ =  ["Кнопка 1","Кнопка 2"].map { [weak self] txt in
             let but = StatusButton(frame: .zero, title: txt, tintColor: StatusButton.Constans.tintColor)
@@ -95,19 +103,12 @@ class FeedViewController: UIViewController {
     }
     
     func pushToPostVC() {
-        let postVC = PostViewController()
-        navigationController?.pushViewController(postVC, animated: true)
-    }
-    
-    @objc func checkWord(notification: Notification){
-        if let rez = notification.object as? Bool {
-            colorCkeckLabel.backgroundColor =  rez ? UIColor.green : UIColor.red
-        }
+        viewModel.send(.pressButtonToPostVC)
     }
     
     func checkButtonPress(){
         if let text = passwordTextField.text, !text.isEmpty {
-            passwordCheckerModel.check(word: text)
+            viewModel.send(.pressCheckPasswordButton(text))
         }
     }
     

@@ -13,9 +13,15 @@ class PhotosViewController: UIViewController {
         case `default` = "collectionViewCell"
     }
     
-    let imagePublisher = ImagePublisherFacade()
+    let imagePublisher = ImageProcessor()
     
-    var photoModel: [UIImage] = []
+    private let photoPreModel: [UIImage] = {
+       let photosNameArr =  Photos().createMockPhotos()
+        return photosNameArr.map { photo in
+            UIImage(named: photo.name)!
+        }
+    }()
+    var photoModel:[UIImage] = []
     let collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -25,15 +31,23 @@ class PhotosViewController: UIViewController {
     
     private let sectionInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     private let itemsPerRow: CGFloat = 3
-    
-    deinit {
-        imagePublisher.removeSubscription(for: self)
-    }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePublisher.subscribe(self)
-        imagePublisher.addImagesWithTimer(time: 1, repeat: 30)
+        let stDate = Date.now
+        let qos = QualityOfService.allCases.randomElement()!
+        imagePublisher.processImagesOnThread(sourceImages: photoPreModel, filter: ColorFilter.allCases.randomElement()!, qos: qos) { filteredImage in
+            for image in filteredImage {
+                guard let image = image else { return }
+                self.photoModel.append(UIImage(cgImage: image))
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+            let fnDate = Date.now
+            let distance = round(stDate.distance(to: fnDate) * 10 / 10.0)
+            print("Start \(stDate.ISO8601Format()) | finish \(fnDate.ISO8601Format()) with \(qos.rawValue) distance \(distance)")
+        }
         navigationItem.title = "Photo Gallery"
         navigationController?.navigationBar.prefersLargeTitles = false
         view.backgroundColor = .white
@@ -97,13 +111,5 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
-    }
-}
-
-extension PhotosViewController: ImageLibrarySubscriber {
-    
-    func receive(images: [UIImage]){
-        photoModel = images
-        collectionView.reloadData()
     }
 }

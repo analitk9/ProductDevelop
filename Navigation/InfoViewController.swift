@@ -22,13 +22,13 @@ class InfoViewController: UIViewController {
                                                 y: view.bounds.height / 2,
                                                 width: 100, height: 50), title: "Alert", tintColor: nil)
         button.backgroundColor = .systemRed
-        button.onTap = pressedAlertButton   
+        button.onTap = pressedAlertButton
         self.view.addSubview(button)
         
     }
     
     
-   func pressedAlertButton (){
+    func pressedAlertButton (){
         let alertVC = UIAlertController(title: "Внимание", message: "Выберите действие", preferredStyle: .alert)
         let button1 = UIAlertAction(title: "Первое сообщение", style: .default){ _ in
             print("Первое сообщение")
@@ -43,8 +43,6 @@ class InfoViewController: UIViewController {
         alertVC.addAction(button2)
         alertVC.addAction(button3)
         self.present(alertVC, animated: true, completion: nil)
-        
-        
     }
     
 }

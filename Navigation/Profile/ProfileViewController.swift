@@ -10,17 +10,17 @@ import iOSIntPackage
 
 class ProfileViewController: UIViewController {
     
-    let imageProcessor = ImageProcessor()
     
     fileprivate enum CellReuseID: String {
         case `default` = "TableViewCellReuseIDDefault"
         case sectionHeader = "TableViewHeaderSectionID"
         case photoCell = "PhotoTableViewCellID"
     }
+    
     var name: String
     var userService: UserService
-    let postModel: [Post] = Posts.createMockData()
-    let photoModel: [Photo] = Photos.createMockPhotos()
+    
+    var profileViewModel: ProfileViewModel
     
     let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -30,14 +30,12 @@ class ProfileViewController: UIViewController {
     
     var detailProfileView: DetailProfileAvatar?
     
-    init(userService: UserService, name: String) {
+    init(model: ProfileViewModel, userService: UserService, name: String) {
         
-#if DEBUG
-        self.userService = TestUserService()
-#else
+        self.profileViewModel = model
         self.userService = userService
-#endif
         self.name = name
+        
         super.init(nibName: nil, bundle: nil)
         configureTabBarItem()
     }
@@ -61,7 +59,8 @@ class ProfileViewController: UIViewController {
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: CellReuseID.default.rawValue)
         tableView.register(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: CellReuseID.sectionHeader.rawValue)
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: CellReuseID.photoCell.rawValue)
-        
+        profileViewModel.send(.viewIsReady)
+        setupViewModel()
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
@@ -86,6 +85,23 @@ class ProfileViewController: UIViewController {
         tabBarItem.selectedImage = UIImage(systemName: "person.fill")
         tabBarItem.tag = 20
     }
+    
+    private func setupViewModel() {
+        profileViewModel.onStateChanged = { [weak self] state in
+            guard let self = self else { return }
+            switch state {
+            case .loaded:
+                self.tableView.reloadData()
+                
+            case let .imageFiltered(filteredImage, indexPath):
+                    let cell = self.tableView.cellForRow(at: indexPath) as! PostTableViewCell
+                    cell.applyImageFilter(filteredImage)
+            default:
+                print("initial")
+            }
+        }
+    }
+    
 }
 
 extension ProfileViewController: UITableViewDelegate{
@@ -113,31 +129,27 @@ extension ProfileViewController: UITableViewDataSource {
         if section == 0 {
             return 1
         } else {
-            return postModel.count
+            return profileViewModel.postModel.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
+        
         switch indexPath.section{
         case 0:
             let reUseID = CellReuseID.photoCell.rawValue
             guard let cell = tableView.dequeueReusableCell(withIdentifier: reUseID, for: indexPath) as? PhotosTableViewCell else { fatalError() }
             cell.tapHandler = tapArrow
-            cell.configure(with: photoModel.suffix(4))
+            cell.configure(with: profileViewModel.photoModel.suffix(4))
             return cell
         case 1:
             let reuseID = CellReuseID.default.rawValue
             guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? PostTableViewCell else { fatalError() }
-            let post = postModel[indexPath.row]
+            let post = profileViewModel.postModel[indexPath.row]
             cell.configure(post)
+            
             guard let image = UIImage(named: post.image) else {fatalError()}
-            imageProcessor.processImageAsync(sourceImage:image, filter: ColorFilter.allCases.randomElement()!) { resultImage in
-                guard let resultImage = resultImage else {fatalError()}
-                DispatchQueue.main.async {
-                    cell.applyImageFilter(UIImage(cgImage: resultImage))
-                }
-            }
+            profileViewModel.send(.setupImageFilter(image, indexPath))
             return cell
         default:
             return UITableViewCell()
@@ -160,8 +172,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
     
     func tapArrow(){
-        let photoVc = PhotosViewController()
-        navigationController?.pushViewController(photoVc, animated: true)
+        profileViewModel.send(.pressButtonToPhotoVC)
     }
     
 }

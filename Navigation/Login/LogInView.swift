@@ -26,6 +26,14 @@ class LogInView: UIView {
         stack.clipsToBounds = true
         return stack
     }()
+    
+    let passWordStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.spacing = Constans.padding
+        return stack
+    }()
 
     let logoView: UIImageView = {
         let image = UIImageView(frame: .zero)
@@ -48,6 +56,23 @@ class LogInView: UIView {
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         return but
+    }()
+    
+    let spinnerView = UIActivityIndicatorView(style: .large)
+    
+    let bruteForceButton: CustomButton = {
+        
+        let but = CustomButton(frame: .zero, title: "Bruteforce", tintColor: .white)
+        but.translatesAutoresizingMaskIntoConstraints = false
+        let pixelImage = UIImage(named: "bluePixel")
+        but.setBackgroundImage(pixelImage?.withAlpha(1.0), for: .normal)
+        but.setBackgroundImage(pixelImage?.withAlpha(0.8), for: .highlighted)
+        but.setBackgroundImage(pixelImage?.withAlpha(0.8), for: .selected)
+        but.setBackgroundImage(pixelImage?.withAlpha(0.8), for: .disabled)
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 10
+        return but
+        
     }()
     
     let loginText: UITextField = {
@@ -90,10 +115,13 @@ class LogInView: UIView {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .white
+        passWordStack.addArrangedSubview(passwordText)
+        passWordStack.addArrangedSubview(spinnerView)
         stack.addArrangedSubview(loginText)
-        stack.addArrangedSubview(passwordText)
-        
-        addSubviews([stack, logoView, logInButton])
+        stack.addArrangedSubview(passWordStack)
+        spinnerView.hidesWhenStopped = true
+       
+        addSubviews([stack, logoView, logInButton, bruteForceButton])
 
     }
     
@@ -121,7 +149,11 @@ class LogInView: UIView {
             stack.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constans.padding),
             logInButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
             logInButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: Constans.padding),
-            logInButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor)
+            logInButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+            bruteForceButton.leadingAnchor.constraint(equalTo: logInButton.leadingAnchor),
+            bruteForceButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: Constans.padding),
+            bruteForceButton.trailingAnchor.constraint(equalTo: logInButton.trailingAnchor),
+            bruteForceButton.heightAnchor.constraint(equalToConstant: Constans.imageHeight / 2),
         ])
     }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 protocol LoginViewControllerDelegate: AnyObject {
     func check(login: String, password: String)-> Bool
 }
@@ -14,6 +15,7 @@ protocol LoginViewControllerDelegate: AnyObject {
 class LogInViewController: UIViewController {
     
     var delegate: LoginViewControllerDelegate?
+    var toProfileVC: ((String)->Void)?
     
     private var keyboardHelper: KeyboardHelper?
     let loginView = LogInView()
@@ -45,6 +47,7 @@ class LogInViewController: UIViewController {
         scrollView.addSubview(loginView)
         
         loginView.logInButton.onTap = loginButtonPress
+        loginView.bruteForceButton.onTap = bruteForcePress
         loginView.loginText.delegate = self
         loginView.passwordText.delegate = self
         
@@ -95,15 +98,29 @@ class LogInViewController: UIViewController {
     }
     
      func loginButtonPress() {
-        let profileVC = ProfileViewController(userService: CurrentUserService(), name: loginView.loginText.text ?? "")
         guard let delegate = delegate else { return }
         if let loginText = loginView.loginText.text,
            let passwordText = loginView.passwordText.text,
-           delegate.check(login: loginText, password: passwordText){
-            navigationController?.pushViewController(profileVC, animated: true)
+           delegate.check(login: loginText, password: passwordText){           
+            toProfileVC?(loginText)
         } else {
             showWrongLoginPasswordAlert()
         }   
+    }
+    
+    func bruteForcePress (){
+        loginView.spinnerView.startAnimating()
+        DispatchQueue.global(qos: .background).async {
+            let bfService = BruteForceService()
+            bfService.bruteForce(passwordToUnlock: "112233"){[weak self] pass in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    self.loginView.spinnerView.stopAnimating()
+                    self.loginView.passwordText.isSecureTextEntry = false
+                    self.loginView.passwordText.text = pass
+                }
+            }
+        }
     }
     
     func showWrongLoginPasswordAlert() {

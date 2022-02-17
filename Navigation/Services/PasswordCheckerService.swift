@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PasswordCheckerModel{
+class PasswordCheckerService{
     let password: String
     
     init(password: String){
