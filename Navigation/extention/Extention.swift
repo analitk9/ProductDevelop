@@ -38,7 +38,13 @@ extension UIView {
     }
 }
 
-
+extension QualityOfService: CaseIterable {
+    public static var allCases: [QualityOfService] {
+        return [.userInteractive, .background, .utility , .userInitiated, .default]
+    }
+    
+    
+}
 
 
      
